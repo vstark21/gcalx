@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import re
-from datetime import date, datetime, time, timedelta, timezone
+from datetime import date, datetime, timedelta
 from typing import TYPE_CHECKING
 
 from dateutil import parser as dateutil_parser
@@ -83,11 +83,11 @@ def parse_date(text: str) -> date:
 def parse_datetime(text: str) -> datetime:
     """Parse a datetime string, returning a timezone-aware datetime.
 
-    Falls back to ``dateutil.parser.parse``.
+    Naive datetimes are assumed to represent local time.
     """
     dt = dateutil_parser.parse(text)
     if dt.tzinfo is None:
-        dt = dt.replace(tzinfo=timezone.utc)
+        dt = dt.astimezone()  # assume local time
     return dt
 
 

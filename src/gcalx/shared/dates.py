@@ -98,7 +98,8 @@ def format_time(dt: datetime, *, military: bool = True) -> str:
     """Format a datetime's time component."""
     if military:
         return dt.strftime("%H:%M")
-    return dt.strftime("%-I:%M %p")
+    # Use lstrip to remove leading zero portably (%-I is Linux-only)
+    return dt.strftime("%I:%M %p").lstrip("0")
 
 
 def format_date_header(d: date) -> str:
@@ -114,7 +115,9 @@ def format_full_date(d: date) -> str:
 
     Example: ``Monday, March 2, 2026``
     """
-    return d.strftime("%A, %B %-d, %Y")
+    # Use lstrip to remove leading zero portably (%-d is Linux-only)
+    day = d.strftime("%d").lstrip("0")
+    return d.strftime(f"%A, %B {day}, %Y")
 
 
 def format_relative_date(d: date) -> str:

@@ -44,6 +44,10 @@ def get_deps(
         color=cfg.display.color,
         overrides=cfg.theme.overrides or None,
     )
+    # Register cleanup so the SQLite connection is closed at process exit
+    import atexit
+
+    atexit.register(cache.close)
     return cfg, client, cache, console
 
 

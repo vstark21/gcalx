@@ -175,3 +175,9 @@ pip install -e ".[dev]"
 ## License
 
 [MIT](LICENSE)
+
+## Support
+
+If you find gcalx useful, consider buying me a coffee:
+
+<a href="https://buymeacoffee.com/vstark21" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" height="40"></a>

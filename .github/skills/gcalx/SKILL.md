@@ -13,7 +13,7 @@ metadata:
             {
               "id": "pip",
               "kind": "pip",
-              "package": "gcalx",
+              "package": "git+https://github.com/vstark21/gcalx.git",
               "bins": ["gcalx"],
               "label": "Install gcalx (pip)",
             },

@@ -5,7 +5,7 @@
 Manage your calendar events and tasks from the terminal with a single tool, one auth flow, and one config.
 
 ```
-pip install gcalx
+pip install git+https://github.com/vstark21/gcalx.git
 ```
 
 ## Features

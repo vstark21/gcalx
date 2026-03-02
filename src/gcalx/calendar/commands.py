@@ -56,11 +56,21 @@ def cal_list(
 
 @app.command()
 def agenda(
-    start: Annotated[Optional[str], typer.Argument(help="Start date (default: now).")] = None,
-    end: Annotated[Optional[str], typer.Argument(help="End date (default: start + 5 days).")] = None,
-    calendar: Annotated[Optional[str], typer.Option("-c", "--calendar", help="Calendar name or ID.")] = None,
-    military: Annotated[Optional[bool], typer.Option("--military/--ampm", help="24h vs 12h time.")] = None,
-    refresh: Annotated[bool, typer.Option("--refresh", help="Bypass cache.")] = False,
+    start: Annotated[
+        Optional[str], typer.Argument(help="Start date (default: now).")
+    ] = None,
+    end: Annotated[
+        Optional[str], typer.Argument(help="End date (default: start + 5 days).")
+    ] = None,
+    calendar: Annotated[
+        Optional[str], typer.Option("-c", "--calendar", help="Calendar name or ID.")
+    ] = None,
+    military: Annotated[
+        Optional[bool], typer.Option("--military/--ampm", help="24h vs 12h time.")
+    ] = None,
+    refresh: Annotated[
+        bool, typer.Option("--refresh", help="Bypass cache.")
+    ] = False,
 ) -> None:
     """Show agenda for a time period (default: next 5 days)."""
     cfg, client, _cache, console = _get_deps(refresh)
@@ -87,7 +97,9 @@ def agenda(
 @app.command()
 def quick(
     text: Annotated[str, typer.Argument(help="Natural language event description.")],
-    calendar: Annotated[Optional[str], typer.Option("-c", "--calendar", help="Calendar name or ID.")] = None,
+    calendar: Annotated[
+        Optional[str], typer.Option("-c", "--calendar", help="Calendar name or ID.")
+    ] = None,
 ) -> None:
     """Quick-add an event from natural language text."""
     cfg, client, _cache, console = _get_deps()
@@ -104,7 +116,9 @@ def add(
     title: Annotated[Optional[str], typer.Option("--title", "-t", help="Event title.")] = None,
     when: Annotated[Optional[str], typer.Option("--when", "-w", help="Start time.")] = None,
     duration: Annotated[int, typer.Option("--duration", "-d", help="Duration in minutes.")] = 60,
-    end: Annotated[Optional[str], typer.Option("--end", help="End time (alternative to --duration).")] = None,
+    end: Annotated[
+        Optional[str], typer.Option("--end", help="End time (alternative to --duration).")
+    ] = None,
     where: Annotated[Optional[str], typer.Option("--where", help="Location.")] = None,
     description: Annotated[Optional[str], typer.Option("--desc", help="Description.")] = None,
     who: Annotated[Optional[list[str]], typer.Option("--who", help="Attendee email.")] = None,
@@ -133,7 +147,10 @@ def add(
 
     if allday:
         start_date = parse_date(when)
-        end_date = start_date + timedelta(days=duration)
+        if end:
+            end_date = parse_date(end)
+        else:
+            end_date = start_date + timedelta(days=1)
         body["start"] = {"date": rfc3339_date(start_date)}
         body["end"] = {"date": rfc3339_date(end_date)}
     else:

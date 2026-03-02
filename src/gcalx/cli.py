@@ -55,7 +55,6 @@ def init() -> None:
 
     console.print("[header]gcalx — first-time setup[/header]\n")
 
-    # Use built-in client credentials
     from gcalx.auth import load_credentials
 
     existing = load_credentials(cfg.config_dir)
@@ -65,9 +64,23 @@ def init() -> None:
         console.print(f"[muted]  rm {cfg.token_path}[/muted]")
         return
 
-    # Hard-coded OAuth client (open-source app credentials)
-    client_id = cfg.auth.client_id or "REDACTED_CLIENT_ID"
-    client_secret = cfg.auth.client_secret or "REDACTED_CLIENT_SECRET"
+    client_id = cfg.auth.client_id
+    client_secret = cfg.auth.client_secret
+
+    if not client_id or not client_secret:
+        console.print(
+            "[error]OAuth credentials not configured.[/error]\n"
+            "[muted]Add your Google OAuth client credentials to the config file:[/muted]\n"
+            f"[muted]  {cfg.config_file}[/muted]\n\n"
+            "[muted]  [auth][/muted]\n"
+            '[muted]  client_id = "your-client-id"[/muted]\n'
+            '[muted]  client_secret = "your-client-secret"[/muted]\n\n'
+            "[muted]Or set them via environment variables:[/muted]\n"
+            "[muted]  export GCALX_CLIENT_ID=your-client-id[/muted]\n"
+            "[muted]  export GCALX_CLIENT_SECRET=your-client-secret[/muted]\n\n"
+            "[muted]See https://github.com/vstark21/gcalx#setup for details.[/muted]"
+        )
+        raise typer.Exit(1)
 
     console.print("Opening browser for Google OAuth...\n")
     authenticate(client_id, client_secret, cfg.config_dir)

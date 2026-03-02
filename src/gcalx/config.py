@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import os
 import sys
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -126,7 +127,13 @@ def load_config(config_dir: Path | None = None) -> Config:
     config_file = config_dir / "config.toml"
     cfg = Config(config_dir=config_dir)
 
+    # Environment variables always take priority
+    env_id = os.environ.get("GCALX_CLIENT_ID", "")
+    env_secret = os.environ.get("GCALX_CLIENT_SECRET", "")
+
     if not config_file.exists():
+        cfg.auth.client_id = env_id
+        cfg.auth.client_secret = env_secret
         return cfg
 
     if tomllib is None:
@@ -138,6 +145,11 @@ def load_config(config_dir: Path | None = None) -> Config:
 
     parsed = _dict_to_config(data)
     parsed.config_dir = config_dir
+
+    # Environment variables override config file
+    parsed.auth.client_id = env_id or parsed.auth.client_id
+    parsed.auth.client_secret = env_secret or parsed.auth.client_secret
+
     return parsed
 
 

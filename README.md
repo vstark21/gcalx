@@ -164,6 +164,14 @@ lineart = "unicode"
 | `GCALX_CLIENT_ID` | Google OAuth client ID (overrides config) |
 | `GCALX_CLIENT_SECRET` | Google OAuth client secret (overrides config) |
 
+## OpenClaw Skill
+
+This project was built as part of an [OpenClaw](https://github.com/openclaw/openclaw) setup so an AI agent can manage your calendar and tasks via chat. An OpenClaw skill definition is included at [`.github/skills/gcalx/SKILL.md`](.github/skills/gcalx/SKILL.md) — copy it into your OpenClaw skills directory to enable it:
+
+```bash
+cp -r .github/skills/gcalx ~/.openclaw/workspace/skills/gcalx
+```
+
 ## Development
 
 ```bash

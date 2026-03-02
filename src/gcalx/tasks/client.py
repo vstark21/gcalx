@@ -52,8 +52,10 @@ class TasksClient:
         for tl in lists:
             if tl.get("title", "").lower() == name.lower():
                 return tl["id"]
-        # Maybe it's already an ID
-        return name
+        # No match found — use the first list, or @default as last resort
+        if lists:
+            return lists[0]["id"]
+        return "@default"
 
     # ── Tasks ──────────────────────────────────────────────────────
 

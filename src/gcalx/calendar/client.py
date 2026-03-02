@@ -2,11 +2,11 @@
 
 from __future__ import annotations
 
-from datetime import date, datetime, timedelta, timezone
+from datetime import datetime, timedelta, timezone
 from typing import Any
 
-from gcalx.shared.cache import Cache, TTL_CAL_LIST, TTL_EVENTS
-from gcalx.shared.dates import rfc3339, rfc3339_date
+from gcalx.shared.cache import TTL_CAL_LIST, TTL_EVENTS, Cache
+from gcalx.shared.dates import rfc3339
 
 
 class CalendarClient:

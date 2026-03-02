@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from gcalx.shared.cache import Cache, TTL_TASK_LISTS, TTL_TASKS
+from gcalx.shared.cache import TTL_TASK_LISTS, TTL_TASKS, Cache
 
 
 class TasksClient:

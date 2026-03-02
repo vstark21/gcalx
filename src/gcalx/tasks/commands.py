@@ -62,7 +62,9 @@ def task_lists(
 
 @app.command("ls")
 def task_ls(
-    list_name: Annotated[Optional[str], typer.Option("-l", "--list", help="Task list name.")] = None,
+    list_name: Annotated[
+        Optional[str], typer.Option("-l", "--list", help="Task list name.")
+    ] = None,
     all_tasks: Annotated[bool, typer.Option("-a", "--all", help="Include completed.")] = False,
     due: Annotated[Optional[str], typer.Option("--due", help="Filter by due date.")] = None,
     show_notes: Annotated[bool, typer.Option("--show-notes", help="Show task notes.")] = False,
@@ -103,7 +105,9 @@ def add(
     list_name: Annotated[Optional[str], typer.Option("-l", "--list", help="Task list.")] = None,
     due_date: Annotated[Optional[str], typer.Option("-d", "--due", help="Due date.")] = None,
     notes: Annotated[Optional[str], typer.Option("-n", "--notes", help="Task notes.")] = None,
-    parent: Annotated[Optional[str], typer.Option("-p", "--parent", help="Parent task (subtask).")] = None,
+    parent: Annotated[
+        Optional[str], typer.Option("-p", "--parent", help="Parent task (subtask).")
+    ] = None,
 ) -> None:
     """Add a new task."""
     cfg, client, _cache, console = _get_deps()

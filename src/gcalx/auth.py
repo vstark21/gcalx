@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import json
 import socket
 from contextlib import closing
 from pathlib import Path

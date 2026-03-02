@@ -35,7 +35,12 @@ def _version_callback(value: bool) -> None:
 def main(
     version: Annotated[
         Optional[bool],
-        typer.Option("--version", "-V", help="Show version.", callback=_version_callback, is_eager=True),
+        typer.Option(
+            "--version", "-V",
+            help="Show version.",
+            callback=_version_callback,
+            is_eager=True,
+        ),
     ] = None,
 ) -> None:
     """Google Calendar Extended — Calendar + Tasks from the terminal."""
@@ -60,7 +65,10 @@ def init() -> None:
     existing = load_credentials(cfg.config_dir)
     if existing:
         console.print("[success]Already authenticated![/success]")
-        console.print("[muted]To re-authenticate, delete the token file and run init again.[/muted]")
+        console.print(
+            "[muted]To re-authenticate, delete the token file"
+            " and run init again.[/muted]"
+        )
         console.print(f"[muted]  rm {cfg.token_path}[/muted]")
         return
 
@@ -136,7 +144,6 @@ def today(
     cal_svc = build_calendar_service(creds)
     cal_client = CalendarClient(cal_svc, cache)
 
-    now = datetime.now(timezone.utc)
     day_start = datetime.combine(d, datetime.min.time()).replace(tzinfo=timezone.utc)
     day_end = day_start + timedelta(days=1)
 

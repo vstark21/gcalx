@@ -2,9 +2,9 @@
 
 from __future__ import annotations
 
-import sys
 from pathlib import Path
 
+import typer
 from rich.console import Console
 
 
@@ -16,7 +16,7 @@ def ensure_auth(config_dir: Path) -> None:
         console.print(
             "[error]Not authenticated. Run [bold]gcalx init[/bold] first.[/error]"
         )
-        sys.exit(1)
+        raise typer.Exit(1)
 
 
 def truncate(text: str, length: int = 50) -> str:

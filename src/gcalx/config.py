@@ -153,6 +153,11 @@ def load_config(config_dir: Path | None = None) -> Config:
     return parsed
 
 
+def _toml_escape(s: str) -> str:
+    """Escape a string for use in a TOML quoted value."""
+    return s.replace("\\", "\\\\").replace('"', '\\"')
+
+
 def save_config(cfg: Config) -> None:
     """Write config to TOML file (minimal writer — no dependency needed)."""
     cfg.config_dir.mkdir(parents=True, exist_ok=True)
@@ -162,31 +167,32 @@ def save_config(cfg: Config) -> None:
     if cfg.auth.client_id or cfg.auth.client_secret:
         lines.append("[auth]")
         if cfg.auth.client_id:
-            lines.append(f'client_id = "{cfg.auth.client_id}"')
+            lines.append(f'client_id = "{_toml_escape(cfg.auth.client_id)}"')
         if cfg.auth.client_secret:
-            lines.append(f'client_secret = "{cfg.auth.client_secret}"')
+            lines.append(f'client_secret = "{_toml_escape(cfg.auth.client_secret)}"')
         lines.append("")
 
     lines.append("[calendar]")
-    lines.append(f'default_calendar = "{cfg.calendar.default_calendar}"')
+    lines.append(f'default_calendar = "{_toml_escape(cfg.calendar.default_calendar)}"')
     lines.append(f"military = {'true' if cfg.calendar.military else 'false'}")
-    lines.append(f'week_start = "{cfg.calendar.week_start}"')
+    lines.append(f'week_start = "{_toml_escape(cfg.calendar.week_start)}"')
     lines.append(f"width = {cfg.calendar.width}")
     lines.append("")
 
     lines.append("[tasks]")
-    lines.append(f'default_list = "{cfg.tasks.default_list}"')
+    lines.append(f'default_list = "{_toml_escape(cfg.tasks.default_list)}"')
     lines.append("")
 
     lines.append("[display]")
     lines.append(f"color = {'true' if cfg.display.color else 'false'}")
-    lines.append(f'lineart = "{cfg.display.lineart}"')
+    lines.append(f'lineart = "{_toml_escape(cfg.display.lineart)}"')
     lines.append("")
 
     if cfg.theme.overrides:
         lines.append("[theme]")
         for key, value in cfg.theme.overrides.items():
-            lines.append(f'"{key}" = "{value}"')
+            lines.append(f'"{_toml_escape(key)}" = "{_toml_escape(value)}"')
         lines.append("")
 
     cfg.config_file.write_text("\n".join(lines) + "\n")
+    cfg.config_file.chmod(0o600)

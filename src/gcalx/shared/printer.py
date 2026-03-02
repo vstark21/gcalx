@@ -17,7 +17,7 @@ _DUSK_STYLES: dict[str, str] = {
     "cal.description": "#565F89",            # muted gray — descriptions
     "cal.now":         "bold #FF9E64",       # warm orange — now marker
     "cal.allday":      "bold #E0AF68",       # amber — all-day events
-    "cal.declined":    "dim strikethrough",  # dimmed — declined events
+    "cal.declined":    "dim strike",          # dimmed — declined events
     "cal.border":      "#3B4261",            # dark blue-gray — borders
 
     # Calendar access roles

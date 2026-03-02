@@ -52,8 +52,15 @@ class TasksClient:
         for tl in lists:
             if tl.get("title", "").lower() == name.lower():
                 return tl["id"]
-        # No match found — use the first list, or @default as last resort
+        # No match found — warn and fall back to the first list
+        import warnings
+
         if lists:
+            fallback = lists[0].get("title", lists[0]["id"])
+            warnings.warn(
+                f"Task list '{name}' not found, using '{fallback}'",
+                stacklevel=2,
+            )
             return lists[0]["id"]
         return "@default"
 

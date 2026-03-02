@@ -1,0 +1,64 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "gcalx"
+version = "0.1.0"
+description = "Google Calendar Extended — unified CLI for Google Calendar and Tasks"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.10"
+authors = [
+    { name = "Vishwas Chepuri" },
+]
+keywords = ["google", "calendar", "tasks", "cli", "gcal"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Console",
+    "Intended Audience :: End Users/Desktop",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Office/Business :: Scheduling",
+]
+dependencies = [
+    "google-api-python-client>=2.100.0",
+    "google-auth>=2.20.0",
+    "google-auth-oauthlib>=1.0.0",
+    "typer>=0.9.0",
+    "rich>=13.0.0",
+    "python-dateutil>=2.8.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "pytest-cov",
+    "ruff",
+    "mypy",
+]
+
+[project.scripts]
+gcalx = "gcalx.cli:app"
+
+[project.urls]
+Homepage = "https://github.com/vstark21/gcalx"
+Repository = "https://github.com/vstark21/gcalx"
+Issues = "https://github.com/vstark21/gcalx/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/gcalx"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "W"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

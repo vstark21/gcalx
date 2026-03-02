@@ -1,25 +1,9 @@
 ---
 name: gcalx
 description: "Manage Google Calendar events and Google Tasks from the terminal via the gcalx CLI. Use when: user asks about calendar events, scheduling, tasks, todos, or reminders."
-homepage: https://github.com/vstark21/gcalx
 metadata:
-  {
     "openclaw":
-      {
-        "emoji": "📅",
-        "requires": { "bins": ["gcalx"] },
-        "install":
-          [
-            {
-              "id": "pip",
-              "kind": "pip",
-              "package": "git+https://github.com/vstark21/gcalx.git",
-              "bins": ["gcalx"],
-              "label": "Install gcalx (pip)",
-            },
-          ],
-      },
-  }
+        "emoji": "📅"
 ---
 
 # gcalx

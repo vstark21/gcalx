@@ -54,7 +54,9 @@ export GCALX_CLIENT_SECRET="your-client-secret"
 gcalx init
 ```
 
-This opens a browser for Google OAuth consent. On headless machines, it prints the URL and waits — use SSH port forwarding:
+This opens a browser for Google OAuth consent. To re-authenticate (e.g. after revoking access), use `gcalx init --force`.
+
+On headless machines, it prints the URL and waits — use SSH port forwarding:
 
 ```bash
 ssh -L <port>:localhost:<port> user@host
@@ -125,7 +127,7 @@ gcalx today                                  # today's agenda + due tasks
 
 | Command | Description |
 |---------|-------------|
-| `init` | Run OAuth2 authentication |
+| `init` | Run OAuth2 authentication (`--force` to re-auth) |
 | `today` | Today's events + due/overdue tasks |
 | `--version` | Show version |
 
@@ -178,6 +180,14 @@ cp -r .github/skills/gcalx ~/.openclaw/workspace/skills/gcalx
 git clone https://github.com/vstark21/gcalx.git
 cd gcalx
 pip install -e ".[dev]"
+```
+
+Run the test suite, linter, and type checker:
+
+```bash
+pytest               # 150+ unit tests
+ruff check .         # lint
+mypy src/gcalx       # type check
 ```
 
 ## License

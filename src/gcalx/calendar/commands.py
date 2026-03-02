@@ -8,34 +8,22 @@ from typing import Annotated, Optional
 import typer
 from rich.prompt import Confirm
 
-from gcalx.auth import build_calendar_service, load_credentials
+from gcalx.auth import build_calendar_service
 from gcalx.calendar.client import CalendarClient
 from gcalx.calendar.formatters import format_agenda, format_calendar_list, format_event_short
-from gcalx.config import load_config
-from gcalx.shared.cache import Cache
 from gcalx.shared.dates import parse_date, parse_datetime, rfc3339, rfc3339_date
-from gcalx.shared.printer import get_console
-from gcalx.shared.utils import ensure_auth
+from gcalx.shared.deps import get_deps
 
 app = typer.Typer(name="cal", help="Google Calendar commands.")
 
 
 def _get_deps(refresh: bool = False):
     """Bootstrap config → creds → service → client."""
-    cfg = load_config()
-    ensure_auth(cfg.config_dir)
-    creds = load_credentials(cfg.config_dir)
-    if creds is None:
-        typer.echo("Failed to load credentials. Run `gcalx init`.", err=True)
-        raise typer.Exit(1)
-    svc = build_calendar_service(creds)
-    cache = Cache(cfg.cache_path)
-    client = CalendarClient(svc, cache)
-    console = get_console(
-        color=cfg.display.color,
-        overrides=cfg.theme.overrides or None,
+    return get_deps(
+        build_service=build_calendar_service,
+        build_client=CalendarClient,
+        refresh=refresh,
     )
-    return cfg, client, cache, console
 
 
 # ── cal list ───────────────────────────────────────────────────────

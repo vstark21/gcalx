@@ -8,12 +8,9 @@ from typing import Annotated, Optional
 import typer
 from rich.prompt import Confirm
 
-from gcalx.auth import build_tasks_service, load_credentials
-from gcalx.config import load_config
-from gcalx.shared.cache import Cache
+from gcalx.auth import build_tasks_service
 from gcalx.shared.dates import parse_date, rfc3339_date
-from gcalx.shared.printer import get_console
-from gcalx.shared.utils import ensure_auth
+from gcalx.shared.deps import get_deps
 from gcalx.tasks.client import TasksClient
 from gcalx.tasks.formatters import format_task_list, format_task_lists
 
@@ -22,20 +19,11 @@ app = typer.Typer(name="task", help="Google Tasks commands.")
 
 def _get_deps(refresh: bool = False):
     """Bootstrap config → creds → service → client."""
-    cfg = load_config()
-    ensure_auth(cfg.config_dir)
-    creds = load_credentials(cfg.config_dir)
-    if creds is None:
-        typer.echo("Failed to load credentials. Run `gcalx init`.", err=True)
-        raise typer.Exit(1)
-    svc = build_tasks_service(creds)
-    cache = Cache(cfg.cache_path)
-    client = TasksClient(svc, cache)
-    console = get_console(
-        color=cfg.display.color,
-        overrides=cfg.theme.overrides or None,
+    return get_deps(
+        build_service=build_tasks_service,
+        build_client=TasksClient,
+        refresh=refresh,
     )
-    return cfg, client, cache, console
 
 
 def _resolve_list(cfg, client: TasksClient, list_name: str | None) -> str:

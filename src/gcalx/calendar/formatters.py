@@ -56,6 +56,7 @@ def format_agenda(
 
     current_date: date | None = None
     now = datetime.now().astimezone()
+    now_shown_date: date | None = None
 
     for event in events:
         all_day = is_all_day(event)
@@ -78,11 +79,12 @@ def format_agenda(
 
         # Now marker
         if isinstance(start, datetime) and current_date == now.date():
-            if start > now and (not hasattr(format_agenda, "_now_shown") or format_agenda._now_shown != current_date):  # type: ignore[attr-defined]
+            if start > now and now_shown_date != current_date:
                 console.print(
-                    " [cal.border]┃[/cal.border]   [cal.now]▸ NOW ─────────────────────────[/cal.now]"
+                    " [cal.border]┃[/cal.border]   "
+                    "[cal.now]▸ NOW ─────────────────────────[/cal.now]"
                 )
-                format_agenda._now_shown = current_date  # type: ignore[attr-defined]
+                now_shown_date = current_date
 
         title = event.get("summary", "(No title)")
 
@@ -94,7 +96,10 @@ def format_agenda(
         )
 
         if all_day:
-            line = f" [cal.border]┃[/cal.border]   [cal.allday]▓▓▓▓▓  {title}[/cal.allday]  [muted]all day[/muted]"
+            line = (
+                " [cal.border]┃[/cal.border]   "
+                f"[cal.allday]▓▓▓▓▓  {title}[/cal.allday]  [muted]all day[/muted]"
+            )
         elif declined:
             time_str = format_time(start, military=military) if isinstance(start, datetime) else ""
             line = f" [cal.border]┃[/cal.border]   [cal.declined]{time_str}  {title}[/cal.declined]"

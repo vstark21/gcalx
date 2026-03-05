@@ -133,5 +133,5 @@ def _print_task(
     console.print(line)
 
     if show_notes and task.get("notes"):
-        notes = truncate(task["notes"], 60)
-        console.print(f"{prefix}     [task.notes]{notes}[/task.notes]")
+        for notes_line in task["notes"].splitlines():
+            console.print(f"{prefix}     [task.notes]{notes_line}[/task.notes]")

@@ -82,6 +82,9 @@ gcalx task lists
 # List tasks (shows hierarchy, due dates, status)
 gcalx task ls
 
+# List tasks with full notes/description (no truncation, multiline supported)
+gcalx task ls --show-notes
+
 # List tasks due today
 gcalx task ls --due today
 
